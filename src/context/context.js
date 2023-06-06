@@ -10,7 +10,15 @@ const globalContext = React.createContext();
 
 const getDataLocalStorage = (data) => {
   if (!localStorage.getItem(data)) {
-    return mockFollowers;
+    if (data === "followers") {
+      return mockFollowers;
+    }
+    if (data === "repos") {
+      return mockRepos;
+    }
+    if (data === "github-user") {
+      return mockUser;
+    }
   }
   return JSON.parse(localStorage.getItem(data));
 };
@@ -34,11 +42,12 @@ const GlobalContextProvider = ({ children }) => {
         localStorage.setItem("github-user", JSON.stringify(response.data));
         setIsLoading(false);
       } else {
-        setIsError({ show: true, msg: "This user does not exist!" });
         setIsLoading(false);
+        setIsError({ show: true, msg: "This user does not exist!" });
       }
     } catch (error) {
-      console.log(error);
+      setIsError({ show: true, msg: "This user does not exist!" });
+      setIsLoading(false);
     }
   };
   const searchGithubRepos = async (user) => {
@@ -50,11 +59,13 @@ const GlobalContextProvider = ({ children }) => {
       if (repos) {
         setRepos(response.data);
         localStorage.setItem("repos", JSON.stringify(response.data));
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         setIsError({ show: true, msg: "Error! No repos loaded!" });
       }
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
     }
   };
   const searchGithubFollowers = async (user) => {
@@ -63,15 +74,16 @@ const GlobalContextProvider = ({ children }) => {
       const response = await axios(
         `https://api.github.com/users/${user}/followers`
       );
-      console.log(response);
       if (repos) {
         setFollowers(response.data);
         localStorage.setItem("followers", JSON.stringify(response.data));
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         setIsError({ show: true, msg: "Error! No followers loaded!" });
       }
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
     }
   };
   const checkRequests = async () => {
@@ -86,7 +98,7 @@ const GlobalContextProvider = ({ children }) => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      setIsError({ show: true, msg: "Your limit is 0!" });
     }
   };
   useEffect(() => {
