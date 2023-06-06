@@ -13,14 +13,15 @@ const Card = () => {
     bio,
     location,
     twitter_username,
+    login,
   } = githubUser;
   return (
     <Wrapper>
       <header>
         <img src={avatar_url} alt={name} />
         <div>
-          <h4>{name}</h4>
-          <p>@{twitter_username || name}</p>
+          <h4>{name || login}</h4>
+          <p>@{twitter_username || name || login}</p>
         </div>
         <a href={html_url}>follow</a>
       </header>

@@ -40,7 +40,7 @@ const Repos = () => {
   let mostForkedRepo = useMemo(() => {
     return repos.reduce((acc, value) => {
       const { forks, name } = value;
-      if (!forks || forks === 0) {
+      if (!forks) {
         return acc;
       }
       if (!acc[name]) {
@@ -54,7 +54,7 @@ const Repos = () => {
   let mostWatchedRepos = useMemo(() => {
     return repos.reduce((acc, value) => {
       const { watchers, name } = value;
-      if (!watchers || watchers === 0) {
+      if (!watchers) {
         return acc;
       }
       if (!acc[name]) {
