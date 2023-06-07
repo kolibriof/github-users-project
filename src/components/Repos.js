@@ -71,9 +71,9 @@ const Repos = () => {
   mostForkedRepo = Object.values(mostForkedRepo)
     .sort((a, b) => b.value - a.value)
     .slice(0, 7);
-  mostPopularLanguages = Object.values(mostPopularLanguages).sort(
-    (a, b) => b.value - a.value
-  );
+  mostPopularLanguages = Object.values(mostPopularLanguages)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 7);
   mostPopularLanguageByStars = Object.values(mostPopularLanguageByStars).sort(
     (a, b) => b.value - a.value
   );
